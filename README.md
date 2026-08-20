@@ -2,13 +2,13 @@
 
 Class repository - Corporacion Universitaria del Huila (CORHUILA).
 
-| | |
-| --- | --- |
-| **Course** | Distributed Systems (cod. 82739) |
-| **Group** | 2 |
-| **Room** | C4-409 [Sala Informatica] - Prado Alto |
+|              |                                               |
+| ------------ | --------------------------------------------- |
+| **Course**   | Distributed Systems (cod. 82739)              |
+| **Group**    | 2                                             |
+| **Room**     | C4-409 [Sala Informatica] - Prado Alto        |
 | **Schedule** | Lunes 8:40-10:20 a.m. y Jueves 7:50-9:30 a.m. |
-| **Term** | 2026-B |
+| **Term**     | 2026-B                                        |
 
 ## Structure
 
@@ -25,17 +25,19 @@ Do not delete the `01-session` / `02-session` folders: the instructor pushes in-
 material there, and keeping them stable avoids conflicts when you update your fork.
 
 ## Weekly individual delivery
+
 Fill `NN-week/hu-status/README.md` in your fork (keep the exact structure - it is parsed
 automatically). Create your profile repo `username/username` with a CONFIG block:
 
 ```
 <!-- CONFIG
-FULL_NAME: Your Full Name
-GITHUB_USER: your-github-user
+FULL_NAME: Brandow Stivent Claros Polania
+GITHUB_USER: BrandowC
 -->
 ```
 
 ## Git workflow (per environment)
+
 develop -> hu-xxx-dev -> PR to develop; qa -> hu-xxx-qa -> PR to qa; main -> hu-xxx-main -> PR to main.
 Conventional Commits: `type(scope): summary`.
 
