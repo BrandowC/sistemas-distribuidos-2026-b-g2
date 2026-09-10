@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arB" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,0 9,4.5 0,9" fill="#3b82f6"/>
+    </marker>
+    <marker id="arG" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,0 9,4.5 0,9" fill="#22c55e"/>
+    </marker>
+    <marker id="arR" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,0 9,4.5 0,9" fill="#f87171"/>
+    </marker>
+    <marker id="arA" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,0 9,4.5 0,9" fill="#94a3b8"/>
+    </marker>
+    <radialGradient id="glowGreen" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#0f1b2e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <line x1="0" y1="122" x2="1400" y2="122" stroke="#1e293b" stroke-width="1" opacity="0.6"/>
+  <line x1="700" y1="122" x2="700" y2="700" stroke="#1e293b" stroke-width="1" opacity="0.5" stroke-dasharray="3,6"/>
+
+  <!-- title -->
+  <text x="700" y="56" text-anchor="middle" font-size="30" font-weight="800" fill="#f8fafc">Walk before you run — thin slice, real contract</text>
+  <text x="700" y="86" text-anchor="middle" font-size="15" fill="#94a3b8">Week 04 · ordenes-service walking skeleton → MVP 1 contract-first sprint</text>
+
+  <!-- =============== LEFT: WALKING SKELETON =============== -->
+  <text x="360" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">SESSION 1 — ordenes-service, layer by layer</text>
+
+  <!-- request journey lane -->
+  <g>
+    <rect x="70" y="185" width="130" height="66" rx="12" fill="#111827" stroke="#3b82f6" stroke-width="2"/>
+    <text x="135" y="213" text-anchor="middle" font-size="18">🌐</text>
+    <text x="135" y="234" text-anchor="middle" font-size="10.5" font-weight="700" fill="#dbeafe">HTTP adapter</text>
+    <text x="135" y="246" text-anchor="middle" font-size="8.5" fill="#93c5fd">POST /orders</text>
+  </g>
+  <line x1="200" y1="218" x2="238" y2="218" stroke="#475569" stroke-width="1.8" marker-end="url(#arA)"/>
+
+  <g>
+    <rect x="240" y="185" width="130" height="66" rx="12" fill="#111827" stroke="#3b82f6" stroke-width="2"/>
+    <text x="305" y="213" text-anchor="middle" font-size="18">⚙️</text>
+    <text x="305" y="234" text-anchor="middle" font-size="10.5" font-weight="700" fill="#dbeafe">ConfirmOrder</text>
+    <text x="305" y="246" text-anchor="middle" font-size="8.5" fill="#93c5fd">use-case</text>
+  </g>
+  <line x1="370" y1="218" x2="408" y2="218" stroke="#475569" stroke-width="1.8" marker-end="url(#arA)"/>
+
+  <g>
+    <circle cx="480" cy="218" r="42" fill="url(#glowGreen)">
+      <animate attributeName="r" values="34;46;34" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="410" y="185" width="140" height="66" rx="12" fill="#111827" stroke="#22c55e" stroke-width="2.5"/>
+    <text x="480" y="213" text-anchor="middle" font-size="18">🧩</text>
+    <text x="480" y="234" text-anchor="middle" font-size="10.5" font-weight="800" fill="#bbf7d0">order.confirm()</text>
+    <text x="480" y="246" text-anchor="middle" font-size="8.5" fill="#86efac">domain rule, no I/O</text>
+  </g>
+
+  <line x1="480" y1="251" x2="480" y2="290" stroke="#475569" stroke-width="1.8" marker-end="url(#arA)"/>
+  <g>
+    <rect x="410" y="292" width="140" height="60" rx="12" fill="#111827" stroke="#3b82f6" stroke-width="1.8"/>
+    <text x="480" y="316" text-anchor="middle" font-size="16">🔌</text>
+    <text x="480" y="336" text-anchor="middle" font-size="10.5" font-weight="700" fill="#dbeafe">OrderRepository</text>
+    <text x="480" y="347" text-anchor="middle" font-size="8.5" fill="#93c5fd">port (interface)</text>
+  </g>
+  <line x1="480" y1="352" x2="480" y2="390" stroke="#475569" stroke-width="1.8" marker-end="url(#arA)"/>
+  <g>
+    <rect x="410" y="392" width="140" height="60" rx="12" fill="#111827" stroke="#f59e0b" stroke-width="1.8"/>
+    <text x="480" y="416" text-anchor="middle" font-size="16">🐘</text>
+    <text x="480" y="436" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fcd34d">Postgres adapter</text>
+    <text x="480" y="447" text-anchor="middle" font-size="8.5" fill="#fbbf24">real DB, in a container</text>
+  </g>
+
+  <!-- moving request packet -->
+  <circle r="6" fill="#4ade80">
+    <animateMotion dur="3.2s" repeatCount="indefinite" path="M 135,251 L 135,218 L 480,218 L 480,451"/>
+    <animate attributeName="opacity" values="0;1;1;1;1;0" keyTimes="0;0.03;0.2;0.5;0.9;1" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <text x="305" y="150" text-anchor="middle" font-size="10.5" fill="#64748b">adapters → application → domain → port → adapter</text>
+
+  <!-- composition root box -->
+  <g>
+    <rect x="70" y="490" width="480" height="100" rx="12" fill="#111827" stroke="#94a3b8" stroke-width="1.8"/>
+    <text x="90" y="514" font-size="12" font-weight="800" fill="#e2e8f0">🧷 Composition root (config/)</text>
+    <text x="90" y="536" font-size="10" fill="#cbd5e1">repo = new PostgresOrderRepository(ds)</text>
+    <text x="90" y="554" font-size="10" fill="#cbd5e1">useCase = new ConfirmOrder(repo)   ← inject the PORT</text>
+    <text x="90" y="572" font-size="10" fill="#94a3b8" font-style="italic">nowhere deep in the code does "new PostgresOrderRepository()"</text>
+  </g>
+
+  <!-- walking skeleton stamp -->
+  <g>
+    <circle cx="600" cy="540" r="42" fill="url(#glowGreen)">
+      <animate attributeName="r" values="34;46;34" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="600" cy="540" r="30" fill="#111827" stroke="#22c55e" stroke-width="2.5"/>
+    <text x="600" y="549" text-anchor="middle" font-size="20">🚶</text>
+  </g>
+  <text x="600" y="600" text-anchor="middle" font-size="11" font-weight="800" fill="#86efac">walking</text>
+  <text x="600" y="614" text-anchor="middle" font-size="11" font-weight="800" fill="#86efac">skeleton</text>
+
+  <text x="310" y="645" text-anchor="middle" font-size="11.5" fill="#64748b" font-style="italic">GET /health + POST /orders — thin, but it actually runs against real Postgres</text>
+
+  <!-- =============== RIGHT: PLANNING MVP1 =============== -->
+  <text x="1040" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">SESSION 2 — planning MVP 1, contract-first</text>
+
+  <!-- contract box -->
+  <g>
+    <rect x="820" y="176" width="440" height="100" rx="12" fill="#0f172a" stroke="#3b82f6" stroke-width="1.8"/>
+    <text x="840" y="200" font-size="11.5" font-weight="800" fill="#93c5fd">📄 openapi.yaml — agreed before code</text>
+    <text x="840" y="222" font-size="10" fill="#cbd5e1" font-family="Consolas, monospace">POST /api/v1/orders</text>
+    <text x="840" y="240" font-size="10" fill="#4ade80" font-family="Consolas, monospace">201 → { orderId, status: "CONFIRMED" }</text>
+    <text x="840" y="258" font-size="10" fill="#f87171" font-family="Consolas, monospace">409 → OUT_OF_STOCK</text>
+  </g>
+
+  <!-- MoSCoW board -->
+  <text x="1040" y="308" text-anchor="middle" font-size="11.5" font-weight="700" fill="#94a3b8">MoSCoW — commit only what fits</text>
+  <g>
+    <rect x="822" y="320" width="100" height="80" rx="10" fill="#111827" stroke="#22c55e" stroke-width="2"/>
+    <text x="872" y="340" text-anchor="middle" font-size="10.5" font-weight="800" fill="#86efac">Must</text>
+    <text x="872" y="360" text-anchor="middle" font-size="8" fill="#cbd5e1">place order,</text>
+    <text x="872" y="372" text-anchor="middle" font-size="8" fill="#cbd5e1">item in stock</text>
+  </g>
+  <g>
+    <rect x="932" y="320" width="100" height="80" rx="10" fill="#111827" stroke="#3b82f6" stroke-width="1.8"/>
+    <text x="982" y="340" text-anchor="middle" font-size="10.5" font-weight="800" fill="#93c5fd">Should</text>
+    <text x="982" y="360" text-anchor="middle" font-size="8" fill="#cbd5e1">structured</text>
+    <text x="982" y="372" text-anchor="middle" font-size="8" fill="#cbd5e1">409 error</text>
+  </g>
+  <g>
+    <rect x="1042" y="320" width="100" height="80" rx="10" fill="#111827" stroke="#94a3b8" stroke-width="1.6"/>
+    <text x="1092" y="340" text-anchor="middle" font-size="10.5" font-weight="800" fill="#cbd5e1">Could</text>
+    <text x="1092" y="360" text-anchor="middle" font-size="8" fill="#94a3b8">cancel</text>
+    <text x="1092" y="372" text-anchor="middle" font-size="8" fill="#94a3b8">order</text>
+  </g>
+  <g>
+    <rect x="1152" y="320" width="108" height="80" rx="10" fill="#1a1015" stroke="#ef4444" stroke-width="1.8" opacity="0.9"/>
+    <text x="1206" y="340" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fca5a5">Won't (now)</text>
+    <text x="1206" y="360" text-anchor="middle" font-size="8" fill="#fca5a5">discounts,</text>
+    <text x="1206" y="372" text-anchor="middle" font-size="8" fill="#fca5a5">real payments</text>
+  </g>
+
+  <!-- sprint goal shield -->
+  <g>
+    <path d="M 1040 420 L 1110 440 L 1110 480 Q 1110 510 1040 526 Q 970 510 970 480 L 970 440 Z" fill="#111827" stroke="#22c55e" stroke-width="2.2"/>
+    <text x="1040" y="465" text-anchor="middle" font-size="18">🛡️</text>
+  </g>
+  <text x="1040" y="546" text-anchor="middle" font-size="11" font-weight="800" fill="#86efac">Sprint goal</text>
+  <text x="1040" y="562" text-anchor="middle" font-size="9.5" fill="#94a3b8">"a customer can order</text>
+  <text x="1040" y="575" text-anchor="middle" font-size="9.5" fill="#94a3b8">an in-stock item"</text>
+
+  <!-- scope creep rejected -->
+  <g>
+    <rect x="1160" y="415" width="150" height="70" rx="10" fill="#1a1015" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="4,3"/>
+    <text x="1235" y="438" text-anchor="middle" font-size="10" font-weight="700" fill="#fca5a5">"let's also add</text>
+    <text x="1235" y="452" text-anchor="middle" font-size="10" font-weight="700" fill="#fca5a5">Citas this sprint"</text>
+    <text x="1235" y="472" text-anchor="middle" font-size="9" fill="#f87171">→ backlog, not now</text>
+  </g>
+  <line x1="1160" y1="450" x2="1112" y2="465" stroke="#f87171" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arR)"/>
+
+  <text x="1040" y="605" text-anchor="middle" font-size="11.5" fill="#64748b" font-style="italic">anything outside the sprint goal goes to the backlog, never in silently</text>
+
+  <!-- =============== BOTTOM: DoD + EVIDENCE STAMP =============== -->
+  <g>
+    <rect x="40" y="660" width="1320" height="120" rx="14" fill="#111827" stroke="#3b82f6" stroke-width="1.8" opacity="0.95"/>
+    <text x="66" y="690" font-size="14" font-weight="800" fill="#93c5fd">🐾 Amaranta — ordenes-service · Sprint 4</text>
+    <text x="66" y="712" font-size="12" fill="#cbd5e1">Definition of Done: tests green · runs in a container against real Postgres · happy path + 409 out-of-stock answered · README/ADR updated.</text>
+    <text x="66" y="732" font-size="12" fill="#cbd5e1">Session 1: walking skeleton committed. Session 2: openapi.yaml + task board + MoSCoW commitment written before coding MVP 1.</text>
+    <text x="66" y="754" font-size="10.5" fill="#64748b">Commits: "Walking skeleton de ordenes-service" · "Contrato openapi.yaml y plan de MVP 1" — github.com/BrandowC/amaranta-shop-docs</text>
+  </g>
+
+  <text x="1360" y="808" text-anchor="end" font-size="10.5" fill="#475569">Distributed Systems · Week 04 · CORHUILA 2026-B</text>
+</svg>
