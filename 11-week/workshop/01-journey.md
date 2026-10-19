@@ -6,10 +6,12 @@
 the web does for money, and it crosses six components, so a failure in any of them ends in the
 same place: an order that was not placed.
 
-Sources in the team `-docs` repository: `specs/checkout.md` (the checkout as the first extracted
-service, the internal Catalog routes and rule RNF-C4 on traceability), `02-domain/domain-events.md`
-(the `OrderCreated` event and its consumers) and `05-architecture/overview.md` (the service catalog
-and the choice of RabbitMQ).
+Sources in the team `-docs` repository: `03-product/problem-framing.md` and the user story
+`HU-SALES-001` (add to cart and checkout, in `04-requirements/user-stories.md`) for the product side;
+`05-architecture/overview.md` (the service catalog and the choice of RabbitMQ), `specs/checkout.md`
+(the checkout as the first extracted service, the internal Catalog routes and rule RNF-C4 on
+traceability) and `02-domain/domain-events.md` (the `OrderCreated` event and its consumers) for the
+architecture side.
 
 `sales-api` is the service that `02-domain/domain-events.md` calls `sales-service`: same
 responsibility, named as in the checkout spec.
@@ -44,17 +46,17 @@ sequenceDiagram
     participant PG as PostgreSQL (sales-db)
     participant MQ as RabbitMQ
     participant NS as notification-service
-    B->>GW: POST /api/v1/orders (Idempotency-Key, no trace header)
+    B->>GW: POST /api/v1/orders with Idempotency-Key (context: none, the browser starts nothing)
     Note over GW: creates trace_id T and the root span S1
-    GW->>SA: POST /api/v1/orders (traceparent: T, parent S1)
-    SA->>CA: POST /internal/products/reserve-stock (traceparent: T, parent S3)
-    CA-->>SA: 200 with name and price of each line
-    SA->>PG: INSERT orders, order_items, idempotency_key
-    PG-->>SA: ok
-    SA-)MQ: OrderCreated (traceparent in message headers: T, parent S7)
-    SA-->>GW: 201 with Location
-    GW-->>B: 201 with Location (X-Correlation-Id, traceparent)
-    MQ-)NS: OrderCreated (traceparent in message headers: T)
+    GW->>SA: POST /api/v1/orders (context: traceparent T, parent S1)
+    SA->>CA: POST /internal/products/reserve-stock (context: traceparent T, parent S3)
+    CA-->>SA: 200 with name and price of each line (context: response with traceparent T)
+    SA->>PG: INSERT orders, order_items, idempotency_key (context: none on the wire, span S6 stays in sales-api)
+    PG-->>SA: ok (context: none)
+    SA-)MQ: OrderCreated (context: traceparent T in the message headers, parent S7)
+    SA-->>GW: 201 with Location (context: response with traceparent T)
+    GW-->>B: 201 with Location (context: traceparent T and X-Correlation-Id in the response)
+    MQ-)NS: OrderCreated (context: traceparent T in the message headers, parent S7)
 ```
 
 ## Span tree
