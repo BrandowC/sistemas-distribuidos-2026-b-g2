@@ -8,7 +8,7 @@ Individual workshop, delivery 1, Sistemas Distribuidos 2026-B, group 2.
 - TEAM: amaranta-shop (Group 2)
 - DOCS_REPO: https://github.com/code-corhuila/amaranta-shop-docs
 - REFLECTION_DOC: https://docs.google.com/document/d/1TtYVJ_sy1sLXimUXC-Vlaz84JzAWj4WBWvk08Id1wSA/edit?usp=sharing
-- JOURNEY:
+- JOURNEY: Guest checkout, POST /api/v1/orders (api-gateway -> sales-api -> catalog-api -> sales-db, then OrderCreated -> notification-service)
 <!-- CONFIG-END -->
 
 ## My part
