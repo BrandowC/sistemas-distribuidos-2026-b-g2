@@ -1,0 +1,73 @@
+# Burn-rate alerts for SLO 1 of 05-slo.md: availability of the product list, 99.5 % over 30 days.
+#
+# The error budget is 1 - 0.995 = 0.005. An alert fires when the budget is being spent N times
+# faster than allowed, that is, when more than N * 0.005 of the valid reads fail. Each alert needs
+# two windows at once: a long one that shows the problem is real, and a short one that shows it is
+# still happening, so the alert stops soon after the service recovers.
+#
+# The metrics are the ones of 04-metrics.md. Valid reads are `ok` plus `server_error`: a 4xx is
+# caused by the visitor, not by the service. With no traffic the ratio is empty and no alert fires.
+groups:
+  - name: catalog-availability-error-ratio
+    interval: 1m
+    rules:
+      - record: catalog:list_error_ratio:rate5m
+        expr: |
+          sum(rate(catalog_requests_total{route="/api/v1/products",outcome="server_error"}[5m]))
+          /
+          sum(rate(catalog_requests_total{route="/api/v1/products",outcome=~"ok|server_error"}[5m]))
+      - record: catalog:list_error_ratio:rate30m
+        expr: |
+          sum(rate(catalog_requests_total{route="/api/v1/products",outcome="server_error"}[30m]))
+          /
+          sum(rate(catalog_requests_total{route="/api/v1/products",outcome=~"ok|server_error"}[30m]))
+      - record: catalog:list_error_ratio:rate1h
+        expr: |
+          sum(rate(catalog_requests_total{route="/api/v1/products",outcome="server_error"}[1h]))
+          /
+          sum(rate(catalog_requests_total{route="/api/v1/products",outcome=~"ok|server_error"}[1h]))
+      - record: catalog:list_error_ratio:rate6h
+        expr: |
+          sum(rate(catalog_requests_total{route="/api/v1/products",outcome="server_error"}[6h]))
+          /
+          sum(rate(catalog_requests_total{route="/api/v1/products",outcome=~"ok|server_error"}[6h]))
+      # Our traffic is small (about 0.42 reads a minute): without a minimum of reads, two failed
+      # reads in an hour would already be 8 % and would wake someone for noise.
+      - record: catalog:list_valid_reads:increase1h
+        expr: sum(increase(catalog_requests_total{route="/api/v1/products",outcome=~"ok|server_error"}[1h]))
+      - record: catalog:list_valid_reads:increase6h
+        expr: sum(increase(catalog_requests_total{route="/api/v1/products",outcome=~"ok|server_error"}[6h]))
+
+  - name: catalog-availability-burn-rate
+    rules:
+      # Fast burn: 14.4 x 0.005 = 7.2 % of the reads fail over 1 hour, confirmed over 5 minutes.
+      # It spends 2 % of the monthly budget before it fires.
+      - alert: CatalogListFastBurn
+        expr: |
+          catalog:list_error_ratio:rate1h > (14.4 * 0.005)
+          and
+          catalog:list_error_ratio:rate5m > (14.4 * 0.005)
+          and
+          catalog:list_valid_reads:increase1h >= 10
+        labels:
+          severity: critical
+          team: catalog
+        annotations:
+          summary: "The product list spends its error budget 14.4 times too fast: more than 7.2 % of the reads fail"
+          runbook_url: https://github.com/BrandowC/sistemas-distribuidos-2026-b-g2/blob/main/11-week/workshop/07-runbook.md
+
+      # Slow burn: 6 x 0.005 = 3 % of the reads fail over 6 hours, confirmed over 30 minutes.
+      # It spends 5 % of the monthly budget before it fires.
+      - alert: CatalogListSlowBurn
+        expr: |
+          catalog:list_error_ratio:rate6h > (6 * 0.005)
+          and
+          catalog:list_error_ratio:rate30m > (6 * 0.005)
+          and
+          catalog:list_valid_reads:increase6h >= 50
+        labels:
+          severity: warning
+          team: catalog
+        annotations:
+          summary: "The product list spends its error budget 6 times too fast: more than 3 % of the reads fail"
+          runbook_url: https://github.com/BrandowC/sistemas-distribuidos-2026-b-g2/blob/main/11-week/workshop/07-runbook.md
