@@ -12,7 +12,7 @@ Individual workshop, delivery 1, Sistemas Distribuidos 2026-B, group 2.
 - REFLECTION_DOC: https://docs.google.com/document/d/1138oyhIXT3e3PBRl7bsQbHQAXY4Q0-hrJmX9M3qR5iA/edit?tab=t.0
 - LIBRARY_BOOK:
 - LIBRARY_RECORD_TIME:
-- STORIES:
+- STORIES: https://github.com/code-corhuila/amaranta-shop-docs/issues/37, https://github.com/code-corhuila/amaranta-shop-docs/issues/38, https://github.com/code-corhuila/amaranta-shop-docs/issues/39
 <!-- CONFIG-END -->
 
 ## My boundary
