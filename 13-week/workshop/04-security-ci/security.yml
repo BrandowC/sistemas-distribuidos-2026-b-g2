@@ -1,0 +1,54 @@
+# Security gates for the pull requests of catalog-api: a PROPOSAL for the team pipeline (W13, CP4).
+# It lives in the workshop folder of my fork, not in .github/workflows, so it does not run here. The team would copy it to
+# the .github/workflows folder of amaranta-shop-catalog-api.
+name: Security gates
+
+on:
+  pull_request:
+    branches: [develop, qa, main]
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Scan the whole history for secrets (gitleaks)
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect --source /repo --redact --no-banner
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Audit the dependencies of catalog-api for known vulnerabilities (pip-audit)
+        run: |
+          pip install -e ".[dev]" pip-audit
+          pip-audit
+
+  authorization-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # The address of a running catalog-api (see HOW-TO-RUN.md). The job fails if it is not given: a security gate that
+      # is skipped in silence protects nothing.
+      CATALOG_URL: ${{ vars.CATALOG_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: The service under test must be given
+        run: test -n "$CATALOG_URL" || { echo "set the repository variable CATALOG_URL to a running catalog-api"; exit 1; }
+      - name: Negative authorization test, the internal stock routes refuse a caller without the shared secret
+        run: |
+          pip install pytest
+          pytest tests/security -q
