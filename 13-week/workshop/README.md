@@ -32,3 +32,15 @@ boundary is where the two documents disagree.
 | `04-security-ci/` (`security.yml`, the negative test, `HOW-TO-RUN.md`) | CP4 |
 
 The STRIDE analysis is in the team `-docs` repository, in the pull request of the branch `security/stride-BrandowC` (CP2).
+
+## Security stories after the refinement (CP7)
+
+| Issue | Story | STRIDE | Risk | Priority | Automated test |
+|---|---|---|---|---|---|
+| #37 | Authenticate the callers of the internal Catalog stock endpoints | S | 6 | P0 | `test_internal_stock_route_refuses_a_caller_without_the_shared_secret` (written, `04-security-ci/tests`) |
+| #38 | Make `release-stock` idempotent and tied to a reservation | T | 6 | P0 | releasing the same reservation id twice credits the stock once (to write in `catalog-api`) |
+| #39 | Bound the size of an internal stock request | D | 4 | P1 | a body with more than 50 items answers `422` (to write in `catalog-api`) |
+
+What the refinement changed: the three titles now start with `[security]`, as the backlog rule asks, and every issue links
+the STRIDE pull request #36. #37 is marked as related to #31, because #31 checks the token of the user at the protected
+endpoints and #37 checks the service-to-service call of `sales-api` to `catalog-api`.
